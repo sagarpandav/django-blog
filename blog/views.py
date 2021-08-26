@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 
+from rest_framework.decorators import api_view
+from django.http import JsonResponse
+from blog.entity_layer import entity_operations
+
 # posts = [
 #     {
 #         'auther': 'Sagar Pandav',
@@ -87,3 +91,16 @@ def about(request):
     }
     return render(request, 'blog/about.html', context)
 
+@api_view(['POST'])    
+def get_pagewise_result(request):
+    try: 
+        db_name = request.POST['company_name']
+        collection_name = request.POST['collection_name']
+        user_id = request.POST['user_id']
+        page_index = int(request.POST['page_index'])
+        role = request.POST['role']
+        json_result = entity_operations.get_pagewise_invoices(user_id, page_index, role,db_name, collection_name)
+        return JsonResponse(json_result, safe=False)
+    except Exception as error:
+        print("get_pagewise_result error",error)
+        # LOGGER.exception(error)

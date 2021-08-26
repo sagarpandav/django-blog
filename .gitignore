@@ -108,6 +108,10 @@ media/
 *.db
 *.pid
 
+#Secrets
+
+get_files/env_secrets.py
+
 # Ignore Django Migrations in Development if you are working on team
 
 # Only for Development only
